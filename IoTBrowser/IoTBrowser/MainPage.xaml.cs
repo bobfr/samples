@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft. All rights reserved.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,7 +30,7 @@ namespace IoTBrowser
             this.InitializeComponent();
         }
 
-        private async void Go_Web_Click(object sender, RoutedEventArgs e)
+        private void Go_Web_Click(object sender, RoutedEventArgs e)
         {
             DoWebNavigate();
         }
@@ -64,9 +66,9 @@ namespace IoTBrowser
             }
         }
 
-        private void Go_IoTPortal_Click(object sender, RoutedEventArgs e)
+        private void Go_WOD_Click(object sender, RoutedEventArgs e)
         {
-            Web_Address.Text = "https://devx.windows-int.com/en-us/iot";
+            Web_Address.Text = "https://www.windowsondevices.com";
             DoWebNavigate();
         }
 

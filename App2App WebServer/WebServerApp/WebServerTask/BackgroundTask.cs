@@ -1,26 +1,5 @@
-/*
-    Copyright(c) Microsoft Open Technologies, Inc. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
 
-    The MIT License(MIT)
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files(the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions :
-
-    The above copyright notice and this permission notice shall be included in
-    all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-    THE SOFTWARE.
-*/
 
 using System;
 using System.Collections.Generic;
@@ -48,14 +27,14 @@ namespace WebServerTask
             taskInstance.Canceled += OnCanceled;
 
             // Get the deferral object from the task instance
-            _serviceDeferral = taskInstance.GetDeferral();
+            serviceDeferral = taskInstance.GetDeferral();
 
             var appService = taskInstance.TriggerDetails as AppServiceTriggerDetails;
             if (appService != null &&
                 appService.Name == "App2AppComService")
             {
-                _appServiceConnection = appService.AppServiceConnection;
-                _appServiceConnection.RequestReceived += OnRequestReceived;
+                appServiceConnection = appService.AppServiceConnection;
+                appServiceConnection.RequestReceived += OnRequestReceived;
             }
         }
 
@@ -71,7 +50,7 @@ namespace WebServerTask
                         var messageDeferral = args.GetDeferral();
                         //Set a result to return to the caller
                         var returnMessage = new ValueSet();
-                        HttpServer server = new HttpServer(8000, _appServiceConnection);
+                        HttpServer server = new HttpServer(8000, appServiceConnection);
                         IAsyncAction asyncAction = Windows.System.Threading.ThreadPool.RunAsync(
                             (workItem) =>
                             {
@@ -87,7 +66,7 @@ namespace WebServerTask
                     {
                         //Service was asked to quit. Give us service deferral
                         //so platform can terminate the background task
-                        _serviceDeferral.Complete();
+                        serviceDeferral.Complete();
                         break;
                     }
             }
@@ -97,8 +76,8 @@ namespace WebServerTask
             //Clean up and get ready to exit
         }
 
-        BackgroundTaskDeferral _serviceDeferral;
-        AppServiceConnection _appServiceConnection;
+        BackgroundTaskDeferral serviceDeferral;
+        AppServiceConnection appServiceConnection;
     }
 
     public sealed class HttpServer : IDisposable
@@ -110,11 +89,11 @@ namespace WebServerTask
         private readonly StreamSocketListener listener;
         private AppServiceConnection appServiceConnection;
 
-        public HttpServer(int serverPort, AppServiceConnection _appServiceConnection)
+        public HttpServer(int serverPort, AppServiceConnection connection)
         {
             listener = new StreamSocketListener();
             port = serverPort; 
-            appServiceConnection = _appServiceConnection;
+            appServiceConnection = connection;
             listener.ConnectionReceived += (s, e) => ProcessRequestAsync(e.Socket);
         }
 

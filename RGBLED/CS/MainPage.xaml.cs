@@ -1,26 +1,4 @@
-﻿/*
-    Copyright(c) Microsoft Open Technologies, Inc. All rights reserved.
-
-    The MIT License(MIT)
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files(the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions :
-
-    The above copyright notice and this permission notice shall be included in
-    all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-    THE SOFTWARE.
-*/
+﻿// Copyright (c) Microsoft. All rights reserved.
 
 using System;
 using Windows.Devices.Gpio;
@@ -61,16 +39,9 @@ namespace RGBLED
                 return;
             }
 
-           redpin = gpio.OpenPin(REDLED_PIN);
-           bluepin = gpio.OpenPin(BLUELED_PIN);
-           greenpin = gpio.OpenPin(GREENLED_PIN);
-
-            // Show an error if the pin wasn't initialized properly
-            if (redpin == null || bluepin == null || greenpin == null)
-            {
-                GpioStatus.Text = "There were problems initializing the GPIO red/blue/green pin.";
-                return;
-            }
+            redpin = gpio.OpenPin(REDLED_PIN);
+            bluepin = gpio.OpenPin(BLUELED_PIN);
+            greenpin = gpio.OpenPin(GREENLED_PIN);
 
             redpin.Write(GpioPinValue.High);
             redpin.SetDriveMode(GpioPinDriveMode.Output);
