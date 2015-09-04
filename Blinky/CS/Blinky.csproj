@@ -90,7 +90,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="project.json" />
+    <None Include="project - Copy.json" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsIoT, Version=10.0.10240.0">
